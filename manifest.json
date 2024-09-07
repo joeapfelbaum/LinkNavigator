@@ -1,0 +1,11 @@
+{
+    "manifest_version": 3,
+    "name": "Link Navigator V4",
+    "version": "1.0",
+    "description": "Navigate through lists of links organized in folders.",
+    "permissions": ["storage", "tabs", "activeTab", "windows"],
+    "action": {},
+    "background": {
+      "service_worker": "background.js"
+    }
+  }

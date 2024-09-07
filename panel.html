@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Navigator V4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            width: 260px;
+            height: 700px;
+            overflow-y: auto;
+            background-color: #f3f4f6;
+        }
+        h1 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        select, input[type="text"], textarea {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        .btn-blue { background-color: #3b82f6; }
+        .btn-red { background-color: #ef4444; }
+        .btn-green { background-color: #10b981; }
+        .btn-purple { background-color: #8b5cf6; }
+        .btn-yellow { background-color: #f59e0b; }
+        .hidden { display: none; }
+        #linkList {
+            margin-bottom: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .link-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .link-item span {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .link-item button {
+            width: auto;
+            margin-left: 2px;
+            padding: 2px 5px;
+            font-size: 0.8rem;
+        }
+        .large-timer {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #3b82f6;
+}
+.edit-btn {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 2px 5px;
+    font-size: 0.8rem;
+}
+
+.link-text {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.link-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.hidden {
+  display: none;
+}
+
+#folderManageSection {
+  margin-bottom: 10px;
+}
+    </style>
+</head>
+<body>
+    <h1>Link Navigator</h1>
+    <div id="navigationInfo" class="hidden">
+        <p>Current Link: <span id="currentLink"></span></p>
+        <p>Next navigation in: <span id="countdown" class="large-timer"></span> seconds</p>
+    </div>
+
+    <select id="folderSelect">
+        <option value="">Select a folder</option>
+    </select>
+
+    <button id="manageFoldersBtn" class="btn-purple">Manage Folders</button>
+
+    <div id="folderManageSection" class="hidden">
+      <div style="display: flex; margin-bottom: 5px;">
+        <input id="newFolderInput" type="text" placeholder="New folder name" style="width: 70%;">
+        <button id="addFolderBtn" class="btn-blue" style="width: 30%; margin-left: 5px;">Add</button>
+      </div>
+      <button id="deleteFolderBtn" class="btn-red">Delete Folder</button>
+    </div>
+    
+    <select id="folderSelect">
+      <option value="">Select a folder</option>
+    </select>
+
+    <button id="editLinksBtn" class="btn-blue">Edit Links</button>
+
+    <div id="linkList"></div>
+    
+    <button id="manageLinksBtn" class="btn-blue">Manage Links</button>
+    
+    <div id="manageLinksSectionNarrow" class="hidden">
+        <input id="singleLinkInput" type="text" placeholder="Add a single link">
+        <textarea id="bulkLinksInput" placeholder="Add multiple links (one per line)" rows="4"></textarea>
+        <button id="addLinksBtn" class="btn-green">Add Links</button>
+        <input type="file" id="importLinksFile" accept=".txt" style="display: none;">
+        <button id="importLinksBtn" class="btn-purple">Import Links</button>
+        <button id="exportLinksBtn" class="btn-yellow">Export Links</button>
+    </div>
+    
+    <div>
+        <label style="display: block; margin-bottom: 5px;">
+            <input type="checkbox" id="loopCheckbox" style="margin-right: 5px;">
+            Loop through links
+        </label>
+        <div>
+            <input type="radio" id="fixedDelayRadio" name="delayType" checked style="margin-right: 5px;">
+            <label for="fixedDelayRadio">Fixed Delay</label>
+            <input type="number" id="fixedDelayInput" value="5" min="1" style="width: 50px; padding: 2px; margin-left: 5px;"> seconds
+        </div>
+        <div>
+            <input type="radio" id="randomDelayRadio" name="delayType" style="margin-right: 5px;">
+            <label for="randomDelayRadio">Random Delay</label>
+            <input type="number" id="minDelayInput" value="3" min="1" style="width: 50px; padding: 2px; margin-left: 5px;"> to
+            <input type="number" id="maxDelayInput" value="10" min="1" style="width: 50px; padding: 2px;"> seconds
+        </div>
+    </div>
+    
+    <button id="startBtn" class="btn-green">Start Navigation</button>
+    <button id="pauseBtn" class="btn-yellow hidden">Pause Navigation</button>
+    <button id="stopBtn" class="btn-red hidden">Stop Navigation</button>
+    <button id="prevBtn" class="btn-green">Previous</button>
+    <button id="nextBtn" class="btn-green">Next</button>
+
+    <!-- Notes section at the bottom -->
+    <div style="margin-top: 10px;">
+        <textarea id="notesTextarea" placeholder="Enter your notes here..." rows="4" style="width: 100%;"></textarea>
+        <button id="saveNotesBtn" class="btn-blue" style="margin-top: 5px;">Save Notes</button>
+    </div>
+
+    <script src="panel.js"></script>
+</body>
+</html>
